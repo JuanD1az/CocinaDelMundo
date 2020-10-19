@@ -39,5 +39,4 @@ public class MisRecetas extends AppCompatActivity {
         startActivity(intento);
     }
 
-
 }
