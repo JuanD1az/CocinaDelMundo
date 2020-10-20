@@ -31,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
         textoAviso = (TextView) findViewById(R.id.idAviso);
 
         btnRecetasOnline = (Button) findViewById(R.id.idRecetasOnline);
+        btnRecetasOnline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CambiarActivityRecetasOnline();
+            }
+        });
 
         btnFavoritos = (Button) findViewById(R.id.Favoritos);
 
@@ -93,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void CambiarActivityMisRecetas(){
         Intent intento = new Intent(this, MisRecetas.class);
+        startActivity(intento);
+    }
+
+    private void CambiarActivityRecetasOnline(){
+        Intent intento = new Intent(this, MapsActivity.class);
         startActivity(intento);
     }
 
