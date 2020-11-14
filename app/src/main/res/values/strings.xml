@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">CocinaDelMundo</string>
     <string name="title_activity_maps">Map</string>
+    <string name="mis_recetas">Mis Recetas</string>
+    <string name="agregar_receta">Agregar Receta</string>
+    <string name="volver_atras">Volver atras</string>
+    <string name="receta_nombre">Receta Nombre</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="guardar">Guardar</string>
+    <string name="nombre">Nombre</string>
+    <string name="aqui_sera_algo_para_subir_la_imagen">Aqui sera algo para subir la imagen</string>
+    <string name="ingredientes">Ingredientes</string>
+    <string name="codigo">Codigo</string>
 
 </resources>
