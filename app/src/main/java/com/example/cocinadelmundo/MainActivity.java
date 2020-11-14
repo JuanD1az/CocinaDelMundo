@@ -97,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
         comenzar();
     }
 
+    private void CambiarActivityFavoritos(){
+        Intent intento = new Intent(this, PaisesTest.class);
+        startActivity(intento);
+    }
+
     private void CambiarActivityMisRecetas(){
         Intent intento = new Intent(this, MisRecetas.class);
         startActivity(intento);

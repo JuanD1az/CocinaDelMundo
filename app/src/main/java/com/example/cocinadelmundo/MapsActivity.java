@@ -1,16 +1,22 @@
 package com.example.cocinadelmundo;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -24,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
@@ -32,11 +39,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Spinner dropdown;
     static final String[] paths = {"Chile","Argentina","Peru"};
 
+    ArrayList<RecetasOnline> listDatos;
+    RecyclerView recycler;
+    String paises;
+    String Mandar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Intent inten = this.getIntent();
+
+
+        recycler = (RecyclerView) findViewById(R.id.recycler2id);
+        recycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+
+
 
         btnVolverAtras = (Button) findViewById(R.id.idVolverAtras);
         btnVolverAtras.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +69,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(this);
+
+
 
 
 
@@ -98,12 +118,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         float zoom = 3;
+        listDatos=new ArrayList<>();
         switch (position){
             case 0:
                 mMap.clear();
                 LatLng chile = new LatLng(-33.4718999, -70.9100243);
                 mMap.addMarker(new MarkerOptions().position(chile).title("Marcador de Chile").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(chile,zoom));
+                paises = "CHILE";
+                llenarLista();
                 break;
 
             case 1:
@@ -111,6 +134,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng Argentina = new LatLng(-35.539666, -65.3581207);
                 mMap.addMarker(new MarkerOptions().position(Argentina).title("Marcador de Argentina").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Argentina,zoom));
+                paises = "ARGENTINA";
+                llenarLista();
                 break;
 
             case 2:
@@ -118,14 +143,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng Peru = new LatLng(-12.5063601, -75.7967129);
                 mMap.addMarker(new MarkerOptions().position(Peru).title("Marcador de Peru").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Peru,zoom));
+                paises = "PERU";
+                llenarLista();
                 break;
         }
+        Adapter2 adapter2 = new Adapter2(listDatos);
 
-
+        adapter2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Mandar = listDatos.get(recycler.getChildAdapterPosition(view)).getCodigo();
+                CambiarActivityMostrarRecetaOnline();
+            }
+        });
+        recycler.setAdapter(adapter2);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    private void llenarLista(){
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
+                "administracion", null, 1);
+        SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
+
+        RecetasOnline receta= null;
+        Cursor cursor = BaseDeDatos.rawQuery("SELECT codigoRO, nombre, pais FROM recetasOnline WHERE pais='" + paises +"'",null);
+
+        while (cursor.moveToNext()) {
+            receta = new RecetasOnline();
+            receta.setCodigo(cursor.getString(0));
+            receta.setNombre(cursor.getString(1));
+            receta.setPais(cursor.getString(2));
+            listDatos.add(receta);
+        }
+        BaseDeDatos.close();
+    }
+
+
+    private void CambiarActivityMostrarRecetaOnline(){
+        Intent intento = new Intent(this, MostrarRecetaOnline.class);
+        intento.putExtra("codigo",Mandar);
+        startActivity(intento);
+    }
+
 }

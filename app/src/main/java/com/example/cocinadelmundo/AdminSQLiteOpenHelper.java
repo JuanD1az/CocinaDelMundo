@@ -14,12 +14,17 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase BaseDeDatos) {
         BaseDeDatos.execSQL("create table recetas(codigoR int primary key, nombre text, ingredientes text, pasos text)");
-
+        BaseDeDatos.execSQL("create table recetasOnline(codigoRO int primary key, nombre text, ingredientes text, pasos text, pais text)");
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase BaseDeDatos, int i, int i1) {
+        BaseDeDatos.execSQL("drop table if exists recetas");
+        BaseDeDatos.execSQL("drop table if exists recetasOnline");
+
+        BaseDeDatos.execSQL("create table recetas(codigoR int primary key, nombre text, ingredientes text, pasos text)");
+        BaseDeDatos.execSQL("create table recetasOnline(codigoRO int primary key, nombre text, ingredientes text, pasos text, pais text)");
 
     }
 }
