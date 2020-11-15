@@ -185,7 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void CambiarActivityMostrarRecetaOnline(){
         Intent intento = new Intent(this, MostrarRecetaOnline.class);
-        intento.putExtra("codigo",Mandar);
+        intento.putExtra("codigo1",Mandar);
         startActivity(intento);
     }
 

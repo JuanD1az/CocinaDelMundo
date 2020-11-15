@@ -21,7 +21,7 @@ public class MostrarRecetaOnline extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.plantilla_mostraronline);
         Intent inten = this.getIntent();
-        C = inten.getStringExtra("codigo".toString());
+        C = inten.getStringExtra("codigo1".toString());
 
         et_codigo = (EditText) findViewById(R.id.idCodigo);
         et_codigo.setText(C);

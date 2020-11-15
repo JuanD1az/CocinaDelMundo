@@ -2,7 +2,10 @@ package com.example.cocinadelmundo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -12,6 +15,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Inicializar();
 
         textoAviso = (TextView) findViewById(R.id.idAviso);
 
@@ -37,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 CambiarActivityRecetasOnline();
             }
         });
-
-        btnFavoritos = (Button) findViewById(R.id.Favoritos);
 
         btnMisRecetas = (Button) findViewById(R.id.idMisRecetas);
         btnMisRecetas.setOnClickListener(new View.OnClickListener() {
@@ -97,11 +105,6 @@ public class MainActivity extends AppCompatActivity {
         comenzar();
     }
 
-    private void CambiarActivityFavoritos(){
-        Intent intento = new Intent(this, PaisesTest.class);
-        startActivity(intento);
-    }
-
     private void CambiarActivityMisRecetas(){
         Intent intento = new Intent(this, MisRecetas.class);
         startActivity(intento);
@@ -132,6 +135,57 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         comenzar();
     }
+
+    //Poblar tabla recetasOnline
+
+    private void Inicializar(){
+        if(cantidadRegistros()==0){
+            String[] texto = leerArchivo();
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
+                    "administracion", null, 1);
+            SQLiteDatabase db = admin.getWritableDatabase();
+            db.beginTransaction();
+            for(int i=0;i<texto.length;i++){
+                String[] linea = texto[i].split(";");
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("codigoRO",linea[0]);
+                contentValues.put("nombre",linea[1]);
+                contentValues.put("ingredientes",linea[2]);
+                contentValues.put("pasos",linea[3]);
+                contentValues.put("pais",linea[4]);
+                db.insert("recetasOnline",null,contentValues);
+            }
+            Toast.makeText(this,"Bienvenido!!!",Toast.LENGTH_SHORT).show();
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+    }
+
+    private long cantidadRegistros(){
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
+                "administracion", null, 1);
+        SQLiteDatabase db = admin.getReadableDatabase();
+        long cn = DatabaseUtils.queryNumEntries(db,"recetasOnline");
+        db.close();
+        return cn;
+    }
+
+    private String[] leerArchivo(){
+        InputStream inputStream = getResources().openRawResource(R.raw.registros);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try{
+            int i = inputStream.read();
+            while (i != -1){
+                byteArrayOutputStream.write(i);
+                i = inputStream.read();
+            }
+            inputStream.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return byteArrayOutputStream.toString().split("\n");
+    }
+
 
 
 }
