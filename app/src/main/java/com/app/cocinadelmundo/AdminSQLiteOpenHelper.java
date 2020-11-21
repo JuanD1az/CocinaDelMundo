@@ -1,9 +1,7 @@
-package com.example.cocinadelmundo;
+package com.app.cocinadelmundo;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import androidx.annotation.Nullable;
 
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{

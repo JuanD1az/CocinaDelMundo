@@ -1,4 +1,4 @@
-package com.example.cocinadelmundo;
+package com.app.cocinadelmundo;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.example.cocinadelmundo;
+package com.app.cocinadelmundo;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,7 +19,7 @@ public class MostrarReceta extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.plantilla_mostrar);
+        setContentView(R.layout.plantilla_mostrar1);
         Intent inten = this.getIntent();
         C = inten.getStringExtra("codigo".toString());
 

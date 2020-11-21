@@ -1,4 +1,4 @@
-package com.example.cocinadelmundo;
+package com.app.cocinadelmundo;
 
 import java.io.Serializable;
 
