@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "737391653980",
+    "firebase_url": "https://proy1-2020.firebaseio.com",
+    "project_id": "proy1-2020",
+    "storage_bucket": "proy1-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737391653980:android:3a84fbe3e9395312fb6299",
+        "android_client_info": {
+          "package_name": "com.app.cocinadelmundo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737391653980-msnhiab4jr82i51hc21o2t6l5mrmnfi1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.cocinadelmundo",
+            "certificate_hash": "879c8c38a801bd5154898e2ab6a30e595764a18c"
+          }
+        },
+        {
+          "client_id": "737391653980-fffq0jneaneocnndqd86kfs7sch6r98q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl_Iji0s-am-ROt6hT4En_XQ-sn7Ksvw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737391653980-fffq0jneaneocnndqd86kfs7sch6r98q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
