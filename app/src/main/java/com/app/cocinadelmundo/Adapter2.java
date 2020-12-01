@@ -31,7 +31,7 @@ public class Adapter2 extends RecyclerView.Adapter<Adapter2.ViewHolderDatos> imp
     @Override
     public void onBindViewHolder(ViewHolderDatos holder, int position) {
         holder.dato.setText(listDatos.get(position).getNombre());
-        holder.pais.setText(listDatos.get(position).getPais());
+        holder.pais.setText(listDatos.get(position).getCodigo());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.app.cocinadelmundo;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +28,13 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -36,10 +45,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Spinner dropdown;
     static final String[] paths = {"Chile","Argentina","Peru"};
 
+    FirebaseDatabase FBData;
+    DatabaseReference DBReference,DBMostrar;
+
     ArrayList<RecetasOnline> listDatos;
     RecyclerView recycler;
-    String paises;
-    String Mandar;
+    String paises = "CHILE";
+    String MandarCodigo, MandarPais;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +59,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         Intent inten = this.getIntent();
 
+        iniciar_firebase();
 
         recycler = (RecyclerView) findViewById(R.id.recycler2id);
         recycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
+        dropdown = (Spinner) findViewById(R.id.spinner1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, paths);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(this);
 
 
         btnVolverAtras = (Button) findViewById(R.id.idVolverAtras);
@@ -60,14 +78,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 finish();
             }
         });
-
-        dropdown = (Spinner) findViewById(R.id.spinner1);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, paths);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dropdown.setAdapter(adapter);
-        dropdown.setOnItemSelectedListener(this);
-
-
 
 
 
@@ -84,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-                               /**
+    /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -115,7 +125,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         float zoom = 3;
-        listDatos=new ArrayList<>();
         switch (position){
             case 0:
                 mMap.clear();
@@ -144,23 +153,75 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 llenarLista();
                 break;
         }
-        Adapter2 adapter2 = new Adapter2(listDatos);
-
-        adapter2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Mandar = listDatos.get(recycler.getChildAdapterPosition(view)).getCodigo();
-                CambiarActivityMostrarRecetaOnline();
-            }
-        });
-        recycler.setAdapter(adapter2);
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 
+    private void iniciar_firebase() {
+        FirebaseApp.initializeApp(this);
+        this.FBData = FirebaseDatabase.getInstance();
+        this.DBReference = this.FBData.getReference();
+    }
+
+    private void llenarLista(){
+        final int[] cont = {0};
+        listDatos=new ArrayList<>();
+        DatabaseReference bbdd = FirebaseDatabase.getInstance().getReference(paises);
+
+        Query q=bbdd.orderByChild("pais").equalTo(paises);
+
+        q.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
+
+                for(DataSnapshot datasnapshot: dataSnapshot.getChildren()){
+                    cont[0]++;
+
+                    System.out.println(dataSnapshot.getValue());
+
+                    RecetasOnline receta = dataSnapshot.getValue(RecetasOnline.class);
+                    listDatos.add(receta);
+                    break;
+                }
+                Adapter2 adapter2 = new Adapter2(listDatos);
+                adapter2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MandarCodigo = listDatos.get(recycler.getChildAdapterPosition(view)).getCodigo();
+                        MandarPais = listDatos.get(recycler.getChildAdapterPosition(view)).getPais();
+                        CambiarActivityMostrarRecetaOnline();
+                    }
+                });
+                recycler.setAdapter(adapter2);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    /* Muestra las RecetasOnline de SQLite
     private void llenarLista(){
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);
@@ -178,11 +239,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         BaseDeDatos.close();
     }
-
+     */
 
     private void CambiarActivityMostrarRecetaOnline(){
         Intent intento = new Intent(this, MostrarRecetaOnline.class);
-        intento.putExtra("codigo1",Mandar);
+        intento.putExtra("codigo1",MandarCodigo);
+        intento.putExtra("pais1",MandarPais);
         startActivity(intento);
     }
 

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Inicializar();
+        //Inicializar();
 
         textoAviso = (TextView) findViewById(R.id.idAviso);
 
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Poblar tabla recetasOnline
-
+    /*
     private void Inicializar(){
         if(cantidadRegistros()==0){
             String[] texto = leerArchivo();
@@ -184,6 +184,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return byteArrayOutputStream.toString().split("\n");
     }
+    */
+
+
 
 
 
