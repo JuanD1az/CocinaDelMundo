@@ -51,9 +51,9 @@ public class AgregarReceta extends AppCompatActivity {
                 "administracion", null, 1);
         SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
 
-        String nombre = et_nombre.getText().toString().trim().toUpperCase();
-        String ingredientes = et_ingredientes.getText().toString().trim().toUpperCase();
-        String pasos = et_pasos.getText().toString().trim().toUpperCase();
+        String nombre = et_nombre.getText().toString();
+        String ingredientes = et_ingredientes.getText().toString();
+        String pasos = et_pasos.getText().toString();
         String codigo = et_codigo.getText().toString().trim().toUpperCase();
 
         if(!nombre.isEmpty() && !ingredientes.isEmpty() && !pasos.isEmpty() && !codigo.isEmpty()){
