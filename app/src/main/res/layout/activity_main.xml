@@ -45,7 +45,7 @@
         android:id="@+id/Favoritos"
         android:layout_width="136dp"
         android:layout_height="47dp"
-        android:text="Favoritos"
+        android:text="FireBase"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -55,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnFavoritos = (Button) findViewById(R.id.Favoritos);
+        btnFavoritos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CambiarActivityFireBase();
+            }
+        });
+
+
         btnSalir = (Button) findViewById(R.id.idSalir);
         btnSalir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intento = new Intent(this, MapsActivity.class);
         startActivity(intento);
     }
+
+    private void CambiarActivityFireBase(){
+        Intent intento = new Intent(this, FireBase.class);
+        startActivity(intento);
+    }
+
 
 
     private void comenzar(){
