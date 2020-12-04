@@ -96,7 +96,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/idContenedor2"
             android:layout_width="match_parent"
-            android:layout_height="566dp">
+            android:layout_height="wrap_content">
 
 
             <TextView
@@ -115,7 +115,8 @@
             <EditText
                 android:id="@+id/idIngredientes"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="wrap_content"
+                android:minHeight="150dp"
                 android:layout_marginTop="11dp"
                 android:clickable="false"
                 android:editable="false"
@@ -149,7 +150,8 @@
             <EditText
                 android:id="@+id/idPasos"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="wrap_content"
+                android:minHeight="150dp"
                 android:layout_marginTop="8dp"
                 android:clickable="false"
                 android:editable="false"
@@ -163,53 +165,36 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/IdConstraintBotones"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="74dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idPasos"
-                app:layout_constraintVertical_bias="0.0"
-                tools:layout_editor_absoluteX="0dp">
-
-                <Button
-                    android:id="@+id/idVolverAtras"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Volver atras"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.944"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.615" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:id="@+id/IdConstraintBotones"
+                app:layout_constraintTop_toBottomOf="@+id/idPasos">
 
                 <Button
                     android:id="@+id/idEliminar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="122dp"
                     android:layout_height="wrap_content"
                     android:text="Eliminar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.108"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.615" />
+                    android:layout_margin="8dp"/>
 
                 <Button
                     android:id="@+id/idEditar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="122dp"
                     android:layout_height="wrap_content"
                     android:text="Editar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.448"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.615" />
+                    android:layout_margin="8dp"/>
 
+                <Button
+                    android:id="@+id/idVolverAtras"
+                    android:layout_width="122dp"
+                    android:layout_height="wrap_content"
+                    android:text="Volver"
+                    android:layout_margin="8dp"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

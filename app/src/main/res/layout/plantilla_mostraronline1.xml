@@ -97,7 +97,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/idContenedor2"
             android:layout_width="match_parent"
-            android:layout_height="566dp">
+            android:layout_height="wrap_content">
 
 
             <TextView
@@ -116,7 +116,7 @@
             <EditText
                 android:id="@+id/idIngredientes"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
                 android:editable="false"
                 android:focusable="false"
@@ -151,7 +151,7 @@
             <EditText
                 android:id="@+id/idPasos"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:editable="false"
                 android:focusable="false"
